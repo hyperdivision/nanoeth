@@ -15,7 +15,7 @@ const NanoETH = require('nanoeth')
 const eth = new NanoETH('/tmp/parity.sock')
 
 // call methods
-await eth.getBlockNumber()
+await eth.blockNumber()
 ```
 
 For a list of supported methods see https://wiki.parity.io/JSONRPC-eth-module.html
