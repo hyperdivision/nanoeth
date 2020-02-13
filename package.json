@@ -1,0 +1,25 @@
+{
+  "name": "nanoeth",
+  "version": "0.0.0",
+  "description": "Tiny RPC module to request methods on an ETH node",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyperdivision/nanoeth.git"
+  },
+  "keywords": [
+    "eth",
+    "parity"
+  ],
+  "author": "Mathias Buus (@mafintosh)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hyperdivision/nanoeth/issues"
+  },
+  "homepage": "https://github.com/hyperdivision/nanoeth#readme"
+}
