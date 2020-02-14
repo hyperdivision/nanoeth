@@ -1,16 +1,6 @@
 module.exports = class ETH {
   constructor (rpc) {
-    this.rpc = rpc 
-  }
-  
-  static ipc (path) {
-    const IPC = require('./rpc/ipc')
-    return new ETH(new IPC(path))
-  }
-
-  static metamask () {
-    const MetaMask = require('./rpc/metamask')
-    return new ETH(new MetaMask())
+    this.rpc = rpc
   }
 
   accounts () {

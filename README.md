@@ -9,16 +9,23 @@ npm install nanoeth
 ## Usage
 
 ``` js
-const NanoETH = require('nanoeth')
+const NanoETH = require('nanoeth/ipc')
 
 // pass in the ipc socket path
-const eth = NanoETH.ipc('/tmp/parity.sock')
+const eth = new NanoETH('/tmp/parity.sock')
 
 // call methods
 await eth.blockNumber()
 ```
 
 For a list of supported methods see https://wiki.parity.io/JSONRPC-eth-module.html
+
+## RPC providers
+
+The following RPC providers are included
+
+* `nanoeth/metamask`
+* `nanoeth/ipc`
 
 ## License
 

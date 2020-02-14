@@ -1,4 +1,12 @@
-module.exports = class MetaMask {
+const ETH = require('./')
+
+module.exports = class Metamask extends ETH {
+  constructor () {
+    super(new RPC())
+  }
+}
+
+class RPC {
   constructor () {
     this.enable = window.ethereum.enable()
   }
@@ -12,9 +20,9 @@ module.exports = class MetaMask {
           from: accounts[0]
         }, function (err, res) {
           if (err) {
-            const err = new Error(err.message)
-            err.code = err.code
-            return reject(err)
+            const error = new Error(err.message)
+            error.code = err.code
+            return reject(error)
           }
           resolve(res.result)
         })

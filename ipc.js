@@ -1,6 +1,13 @@
 const net = require('net')
+const ETH = require('./index')
 
-module.exports = class IPC {
+module.exports = class IPC extends ETH {
+  constructor (socket) {
+    super(new RPC(socket))
+  }
+}
+
+class RPC {
   constructor (socket) {
     this.id = 0
     this.inflight = new Map()
