@@ -12,7 +12,7 @@ npm install nanoeth
 const NanoETH = require('nanoeth')
 
 // pass in the ipc socket path
-const eth = new NanoETH('/tmp/parity.sock')
+const eth = NanoETH.ipc('/tmp/parity.sock')
 
 // call methods
 await eth.blockNumber()

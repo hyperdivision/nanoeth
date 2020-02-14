@@ -1,8 +1,16 @@
-const RPC = require('./rpc')
-
 module.exports = class ETH {
-  constructor (socket) {
-    this.rpc = new RPC(socket)
+  constructor (rpc) {
+    this.rpc = rpc 
+  }
+  
+  static ipc (path) {
+    const IPC = require('./rpc/ipc')
+    return new ETH(new IPC(path))
+  }
+
+  static metamask () {
+    const MetaMask = require('./rpc/metamask')
+    return new ETH(new MetaMask())
   }
 
   accounts () {

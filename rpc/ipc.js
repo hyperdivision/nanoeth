@@ -1,6 +1,6 @@
 const net = require('net')
 
-module.exports = class RPC {
+module.exports = class IPC {
   constructor (socket) {
     this.id = 0
     this.inflight = new Map()
