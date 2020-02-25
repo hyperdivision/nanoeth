@@ -22,11 +22,15 @@ class RPC {
     this.socket.on('error', this.socket.destroy)
     this.socket.on('close', onclose)
 
+    this.ending = null
+    this.endingResolve = null
+
     function onclose () {
       self.socket = null
       for (const [resolve, reject] of self.inflight.values()) {
         reject(new Error('Socket destroyed'))
       }
+      if (self.endingResolve) self.endingResolve()
     }
 
     function onmessage (message) {
@@ -42,7 +46,10 @@ class RPC {
       if (!p) return false
 
       self.inflight.delete(obj.id)
-      if (self.inflight.size === 0) self.socket.unref()
+      if (self.inflight.size === 0) {
+        self.socket.unref()
+        if (self.ending) self.socket.end()
+      }
 
       if (obj.error) {
         const err = new Error(obj.error.message)
@@ -80,6 +87,16 @@ class RPC {
       if (this.inflight.size === 1) this.socket.ref()
       this.socket.write(JSON.stringify(obj) + '\n')
     })
+  }
+
+  end () {
+    this.ending = new Promise(resolve => {
+      if (!this.socket) return resolve()
+      this.endingResolve = resolve
+      if (this.inflight.size === 0) this.socket.destroy()
+    })
+
+    return this.ending
   }
 
   destroy () {

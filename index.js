@@ -167,6 +167,10 @@ module.exports = class ETH {
     return this.rpc.request('eth_uninstallFilter', [])
   }
 
+  end () {
+    return this.rpc.end ? this.rpc.end() : Promise.resolve()
+  }
+
   static hexToBigInt (s) {
     return BigInt(s, 16)
   }
