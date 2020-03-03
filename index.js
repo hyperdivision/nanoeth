@@ -171,6 +171,14 @@ module.exports = class ETH {
     return this.rpc.end ? this.rpc.end() : Promise.resolve()
   }
 
+  destroy () {
+    if (this.rpc.destroy) this.rpc.destroy()
+  }
+
+  get destroyed () {
+    return !!this.rpc.destroyed
+  }
+
   static hexToBigInt (s) {
     return BigInt(s, 16)
   }

@@ -21,11 +21,13 @@ class RPC {
     this.socket.on('data', ondata)
     this.socket.on('error', this.socket.destroy)
     this.socket.on('close', onclose)
+    this.destroyed = false
 
     this.ending = null
     this.endingResolve = null
 
     function onclose () {
+      self.destroyed = true
       self.socket = null
       for (const [resolve, reject] of self.inflight.values()) {
         reject(new Error('Socket destroyed'))

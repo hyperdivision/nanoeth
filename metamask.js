@@ -9,6 +9,7 @@ module.exports = class Metamask extends ETH {
 class RPC {
   constructor () {
     this.enable = window.ethereum.enable()
+    this.destroyed = false
   }
 
   request (method, params) {
