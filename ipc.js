@@ -102,6 +102,6 @@ class RPC {
   }
 
   destroy () {
-    this.socket.destroy()
+    if (this.socket) this.socket.destroy()
   }
 }
