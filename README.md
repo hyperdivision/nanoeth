@@ -30,6 +30,7 @@ The following RPC providers are included
 
 * `nanoeth/metamask`
 * `nanoeth/ipc`
+* `nanoeth/ws`
 
 ## License
 
