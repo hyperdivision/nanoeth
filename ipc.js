@@ -11,6 +11,7 @@ class RPC {
   constructor (socket) {
     this.id = 0
     this.inflight = new Map()
+    this.subscriptions = new Map()
     this.socket = typeof socket === 'string' ? net.connect(socket) : socket
     this.socket.unref()
 
@@ -42,6 +43,14 @@ class RPC {
         obj = JSON.parse(message)
       } catch (_) {
         return false
+      }
+
+      if (obj.method === 'parity_subscription') {
+        const cb = self.subscriptions.get(obj.params.subscription)
+        if (cb != null) {
+          cb(obj.params.result)
+          return true
+        }
       }
 
       const p = self.inflight.get(obj.id)
@@ -89,6 +98,18 @@ class RPC {
       if (this.inflight.size === 1) this.socket.ref()
       this.socket.write(JSON.stringify(obj) + '\n')
     })
+  }
+
+  async subscribe (method, params, cb) {
+    if (cb == null) return this.subscribe(method, [], params)
+
+    const id = await this.request('parity_subscribe', [method, params])
+    this.subscriptions.set(id, cb)
+
+    return async function () {
+      await this.request('parity_unsubscribe', [id])
+      this.subscriptions.delete(id)
+    }
   }
 
   end () {
