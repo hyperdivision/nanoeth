@@ -5,8 +5,8 @@ class Request {
     this.args = args
   }
 
-  then () {
-    return this.rpc.request(this.method, this.args)
+  then (resolve) {
+    return resolve(this.rpc.request(this.method, this.args))
   }
 }
 
