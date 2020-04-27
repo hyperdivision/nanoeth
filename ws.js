@@ -10,6 +10,7 @@ class RPC {
   constructor (socket) {
     this.id = 0
     this.inflight = new Map()
+    this.subscriptions = new Map()
     this.socket = socket
 
     const self = this
@@ -47,6 +48,14 @@ class RPC {
         return false
       }
 
+      if (obj.method === 'parity_subscription') {
+        const cb = self.subscriptions.get(obj.params.subscription)
+        if (cb != null) {
+          cb(obj.params.result)
+          return true
+        }
+      }
+
       const p = self.inflight.get(obj.id)
       if (!p) return false
 
@@ -80,6 +89,18 @@ class RPC {
       if (!this.opened) this.queued.push(s)
       else this.socket.send(s)
     })
+  }
+
+  async subscribe (method, params, cb) {
+    if (cb == null) return this.subscribe(method, [], params)
+
+    const id = await this.request('parity_subscribe', [method, params])
+    this.subscriptions.set(id, cb)
+
+    return async function () {
+      await this.request('parity_unsubscribe', [id])
+      this.subscriptions.delete(id)
+    }
   }
 
   end () {
