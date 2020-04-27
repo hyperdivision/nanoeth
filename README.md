@@ -24,6 +24,17 @@ await eth.end()
 
 For a list of supported methods see https://wiki.parity.io/JSONRPC-eth-module.html
 
+If you are using Parity you can also use the pubsub module, to subscribe to
+changes:
+
+```js
+const unsubscribe = await eth.subscribe(eth.getBlockByNumber('latest', false), function (block) {
+  if (parseInt(block.timestamp) > Date.now() - 1000 * 60) return unsubscribe()
+
+  console.log(block)
+})
+```
+
 ## RPC providers
 
 The following RPC providers are included

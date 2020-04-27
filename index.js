@@ -1,170 +1,185 @@
 module.exports = class ETH {
   constructor (rpc) {
     this.rpc = rpc
+
+    this.Request = class Request {
+      constructor (method, args = []) {
+        this.method = method
+        this.args = args
+      }
+
+      then () {
+        return rpc.request(this.method, this.args)
+      }
+    }
+  }
+
+  subscribe (req, cb) {
+    return this.rpc.subscribe(req.method, req.args, cb)
   }
 
   accounts () {
-    return this.rpc.request('eth_accounts', [])
+    return new this.Request('eth_accounts', [])
   }
 
   blockNumber () {
-    return this.rpc.request('eth_blockNumber', [])
+    return new this.Request('eth_blockNumber', [])
   }
 
   call (obj, from) {
-    return this.rpc.request('eth_call', from ? [obj, from] : [obj])
+    return new this.Request('eth_call', from ? [obj, from] : [obj])
   }
 
   chainId () {
-    return this.rpc.request('eth_chainId', [])
+    return new this.Request('eth_chainId', [])
   }
 
   coinbase () {
-    return this.rpc.request('eth_coinbase', [])
+    return new this.Request('eth_coinbase', [])
   }
 
   estimateGas (obj, from) {
-    return this.rpc.request('eth_estimateGas', from ? [obj, from] : [obj])
+    return new this.Request('eth_estimateGas', from ? [obj, from] : [obj])
   }
 
   gasPrice () {
-    return this.rpc.request('eth_gasPrice', [])
+    return new this.Request('eth_gasPrice', [])
   }
 
   getBalance (obj, from) {
-    return this.rpc.request('eth_getBalance', from ? [obj, from] : [obj])
+    return new this.Request('eth_getBalance', from ? [obj, from] : [obj])
   }
 
   getBlockByHash (hash, tx) {
-    return this.rpc.request('eth_getBlockByHash', [hash, tx || false])
+    return new this.Request('eth_getBlockByHash', [hash, tx || false])
   }
 
   getBlockByNumber (n, tx) {
-    return this.rpc.request('eth_getBlockByNumber', [n, tx || false])
+    return new this.Request('eth_getBlockByNumber', [n, tx || false])
   }
 
   getBlockTransactionCountByHash (hash) {
-    return this.rpc.request('eth_getBlockTransactionCountByHash', [hash])
+    return new this.Request('eth_getBlockTransactionCountByHash', [hash])
   }
 
   getBlockTransactionCountByNumber (n) {
-    return this.rpc.request('eth_getBlockTransactionCountByNumber', [n])
+    return new this.Request('eth_getBlockTransactionCountByNumber', [n])
   }
 
   getCode (addr, from) {
-    return this.rpc.request('eth_getCode', from ? [addr, from] : [addr])
+    return new this.Request('eth_getCode', from ? [addr, from] : [addr])
   }
 
   getFilterChanges (id) {
-    return this.rpc.request('eth_getFilterChanges', [id])
+    return new this.Request('eth_getFilterChanges', [id])
   }
 
   getFilterLogs (id) {
-    return this.rpc.request('eth_getFilterLogs', [id])
+    return new this.Request('eth_getFilterLogs', [id])
   }
 
   getLogs (obj) {
-    return this.rpc.request('eth_getLogs', [obj])
+    return new this.Request('eth_getLogs', [obj])
   }
 
   getStorageAt (addr, pos, from) {
-    return this.rpc.request('eth_getStorageAt', from ? [addr, pos, from] : [addr, pos])
+    return new this.Request('eth_getStorageAt', from ? [addr, pos, from] : [addr, pos])
   }
 
   getTransactionByBlockHashAndIndex (hash, pos) {
-    return this.rpc.request('eth_getTransactionByBlockHashAndIndex', [hash, pos])
+    return new this.Request('eth_getTransactionByBlockHashAndIndex', [hash, pos])
   }
 
   getTransactionByBlockNumberAndIndex (hash, pos) {
-    return this.rpc.request('eth_getTransactionByBlockNumberAndIndex', [hash, pos])
+    return new this.Request('eth_getTransactionByBlockNumberAndIndex', [hash, pos])
   }
 
   getTransactionByHash (hash) {
-    return this.rpc.request('eth_getTransactionByHash', [hash])
+    return new this.Request('eth_getTransactionByHash', [hash])
   }
 
   getTransactionCount (addr, from) {
-    return this.rpc.request('eth_getTransactionCount', from ? [addr, from] : [addr])
+    return new this.Request('eth_getTransactionCount', from ? [addr, from] : [addr])
   }
 
   getTransactionReceipt (hash) {
-    return this.rpc.request('eth_getTransactionReceipt', [hash])
+    return new this.Request('eth_getTransactionReceipt', [hash])
   }
 
   getUncleByBlockHashAndIndex (hash, pos) {
-    return this.rpc.request('eth_getUncleByBlockHashAndIndex', [hash, pos])
+    return new this.Request('eth_getUncleByBlockHashAndIndex', [hash, pos])
   }
 
   getUncleByBlockNumberAndIndex (n, pos) {
-    return this.rpc.request('eth_getUncleByBlockNumberAndIndex', [n, pos])
+    return new this.Request('eth_getUncleByBlockNumberAndIndex', [n, pos])
   }
 
   getUncleCountByBlockHash (hash) {
-    return this.rpc.request('eth_getUncleCountByBlockHash', [hash])
+    return new this.Request('eth_getUncleCountByBlockHash', [hash])
   }
 
   getUncleCountByBlockNumber (hash) {
-    return this.rpc.request('eth_getUncleCountByBlockNumber', [hash])
+    return new this.Request('eth_getUncleCountByBlockNumber', [hash])
   }
 
   getWork () {
-    return this.rpc.request('eth_getWork', [])
+    return new this.Request('eth_getWork', [])
   }
 
   hashrate () {
-    return this.rpc.request('eth_hashrate', [])
+    return new this.Request('eth_hashrate', [])
   }
 
   mining () {
-    return this.rpc.request('eth_mining', [])
+    return new this.Request('eth_mining', [])
   }
 
   newBlockFilter () {
-    return this.rpc.request('eth_newBlockFilter', [])
+    return new this.Request('eth_newBlockFilter', [])
   }
 
   newFilter (obj) {
-    return this.rpc.request('eth_newFilter', [obj])
+    return new this.Request('eth_newFilter', [obj])
   }
 
   newPendingTransactionFilter () {
-    return this.rpc.request('eth_newPendingTransactionFilter', [])
+    return new this.Request('eth_newPendingTransactionFilter', [])
   }
 
   protocolVersion () {
-    return this.rpc.request('eth_protocolVersion', [])
+    return new this.Request('eth_protocolVersion', [])
   }
 
   sendRawTransaction (data) {
-    return this.rpc.request('eth_sendRawTransaction', [data])
+    return new this.Request('eth_sendRawTransaction', [data])
   }
 
   sendTransaction (data) {
-    return this.rpc.request('eth_sendTransaction', [data])
+    return new this.Request('eth_sendTransaction', [data])
   }
 
   sign (addr, data) {
-    return this.rpc.request('eth_sign', [addr, data])
+    return new this.Request('eth_sign', [addr, data])
   }
 
   signTransaction (obj) {
-    return this.rpc.request('eth_signTransaction', [obj])
+    return new this.Request('eth_signTransaction', [obj])
   }
 
   submitHashrate (a, b) {
-    return this.rpc.request('eth_submitHashrate', [a, b])
+    return new this.Request('eth_submitHashrate', [a, b])
   }
 
   submitWork (a, b, c) {
-    return this.rpc.request('eth_submitWork', [a, b, c])
+    return new this.Request('eth_submitWork', [a, b, c])
   }
 
   syncing () {
-    return this.rpc.request('eth_syncing', [])
+    return new this.Request('eth_syncing', [])
   }
 
   uninstallFilter () {
-    return this.rpc.request('eth_uninstallFilter', [])
+    return new this.Request('eth_uninstallFilter', [])
   }
 
   end () {

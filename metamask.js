@@ -31,5 +31,9 @@ class RPC {
     })
   }
 
+  subscribe () {
+    throw new Error('Metamask does not support pubsub')
+  }
+
   destroy () {}
 }
