@@ -57,7 +57,7 @@ class RPC {
       if (!p) return false
 
       self.inflight.delete(obj.id)
-      if (self.inflight.size === 0) {
+      if (!this.active()) {
         self.socket.unref()
         if (self.ending) self.socket.end()
       }
@@ -87,6 +87,10 @@ class RPC {
     }
   }
 
+  active () {
+    return this.inflight.size > 0 || this.subscriptions.size > 0
+  }
+
   request (method, params) {
     if (!this.socket) return Promise.reject(new Error('Socket destroyed'))
 
@@ -95,7 +99,7 @@ class RPC {
 
     return new Promise((resolve, reject) => {
       this.inflight.set(id, [resolve, reject])
-      if (this.inflight.size === 1) this.socket.ref()
+      if (this.active()) this.socket.ref()
       this.socket.write(JSON.stringify(obj) + '\n')
     })
   }
@@ -116,7 +120,7 @@ class RPC {
     this.ending = new Promise(resolve => {
       if (!this.socket) return resolve()
       this.endingResolve = resolve
-      if (this.inflight.size === 0) this.socket.destroy()
+      if (!this.active()) this.socket.destroy()
     })
 
     return this.ending
