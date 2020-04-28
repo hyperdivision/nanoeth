@@ -57,7 +57,7 @@ class RPC {
       if (!p) return false
 
       self.inflight.delete(obj.id)
-      if (!this.active()) {
+      if (!self.active()) {
         self.socket.unref()
         if (self.ending) self.socket.end()
       }
