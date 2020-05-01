@@ -1,6 +1,6 @@
 {
   "name": "nanoeth",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Tiny RPC module to request methods on an ETH node",
   "main": "index.js",
   "dependencies": {},
