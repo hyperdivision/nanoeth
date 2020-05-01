@@ -3,10 +3,23 @@ class Request {
     this.rpc = rpc
     this.method = method
     this.args = args
+
+    this._promise = null
   }
 
-  then (resolve) {
-    return resolve(this.rpc.request(this.method, this.args))
+  then (resolve, reject) {
+    if (this.promise == null) this.promise = this.rpc.request(this.method, this.args)
+    this.promise.then(resolve, reject)
+  }
+
+  catch (reject) {
+    if (this.promise == null) this.promise = this.rpc.request(this.method, this.args)
+    this.promise.catch(reject)
+  }
+
+  finally (cb) {
+    if (this.promise == null) this.promise = this.rpc.request(this.method, this.args)
+    this.promise.finally(cb)
   }
 }
 
