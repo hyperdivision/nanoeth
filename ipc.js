@@ -48,7 +48,14 @@ class RPC {
       if (obj.method === 'parity_subscription') {
         const cb = self.subscriptions.get(obj.params.subscription)
         if (cb != null) {
-          cb(obj.params.result)
+          if (obj.params.error) {
+            const err = new Error(obj.params.error.message)
+            err.code = obj.params.error.code
+            cb(err)
+            return true
+          }
+
+          cb(null, obj.params.result)
           return true
         }
       }

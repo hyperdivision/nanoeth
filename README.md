@@ -28,7 +28,8 @@ If you are using Parity you can also use the pubsub module, to subscribe to
 changes:
 
 ```js
-const unsubscribe = await eth.subscribe(eth.getBlockByNumber('latest', false), function (block) {
+const unsubscribe = await eth.subscribe(eth.getBlockByNumber('latest', false), function (err, block) {
+  if (err) return
   if (parseInt(block.timestamp) > Date.now() - 1000 * 60) return unsubscribe()
 
   console.log(block)
