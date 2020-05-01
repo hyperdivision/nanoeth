@@ -9,17 +9,17 @@ class Request {
 
   then (resolve, reject) {
     if (this.promise == null) this.promise = this.rpc.request(this.method, this.args)
-    this.promise.then(resolve, reject)
+    return this.promise.then(resolve, reject)
   }
 
   catch (reject) {
     if (this.promise == null) this.promise = this.rpc.request(this.method, this.args)
-    this.promise.catch(reject)
+    return this.promise.catch(reject)
   }
 
   finally (cb) {
     if (this.promise == null) this.promise = this.rpc.request(this.method, this.args)
-    this.promise.finally(cb)
+    return this.promise.finally(cb)
   }
 }
 
