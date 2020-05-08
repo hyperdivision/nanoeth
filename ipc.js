@@ -117,7 +117,7 @@ class RPC {
     const id = await this.request('parity_subscribe', [method, params])
     this.subscriptions.set(id, cb)
 
-    return async function () {
+    return async () => {
       await this.request('parity_unsubscribe', [id])
       this.subscriptions.delete(id)
     }
