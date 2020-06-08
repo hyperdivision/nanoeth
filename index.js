@@ -192,8 +192,8 @@ module.exports = class ETH {
     return new Request(this.rpc, 'eth_syncing', [])
   }
 
-  uninstallFilter () {
-    return new Request(this.rpc, 'eth_uninstallFilter', [])
+  uninstallFilter (id) {
+    return new Request(this.rpc, 'eth_uninstallFilter', [id])
   }
 
   end () {
