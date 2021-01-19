@@ -15,6 +15,7 @@ class RPC {
   async request (method, params) {
     const res = await got.post({
       url: this.endpoint,
+      timeout: 5000,
       json: {
         jsonrpc: '2.0',
         method,
